@@ -4,5 +4,6 @@ const { authenticate } = require('../middleware/auth');
 r.post('/register', c.register);
 r.post('/login', c.login);
 r.post('/admin/login', c.adminLogin);
+r.post('/manager/login', c.managerLogin);
 r.get('/me', authenticate, c.me);
 module.exports = r;

@@ -23,8 +23,11 @@ export default function Navbar() {
           {user?.role === 'admin' && (
             <NavLink to="/admin" className={linkCls}>Admin</NavLink>
           )}
+          {user?.role === 'manager' && (
+            <NavLink to="/manager" className={linkCls}>Manager</NavLink>
+          )}
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2"> 
           {!user && (
             <>
               <Link to="/login" className="btn-outline">Login</Link>

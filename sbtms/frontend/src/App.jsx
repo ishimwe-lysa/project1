@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
+import ManagerLayout from './layouts/ManagerLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import Home from './pages/Home';
@@ -21,6 +22,14 @@ import ManageRoutes from './pages/admin/ManageRoutes';
 import ManageSchedules from './pages/admin/ManageSchedules';
 import ManageBookings from './pages/admin/ManageBookings';
 import Reports from './pages/admin/Reports';
+
+import ManagerLogin from './pages/manager/ManagerLogin';
+import ManagerDashboard from './pages/manager/ManagerDashboard';
+import ManagerRoutes from './pages/manager/ManagerRoutes';
+import ManagerPayments from './pages/manager/ManagerPayments';
+import ManagerSchedules from './pages/manager/ManagerSchedules';
+import ManagerBookings from './pages/manager/ManagerBookings';
+import ManagerReports from './pages/manager/ManagerReports';
 
 export default function App() {
   return (
@@ -46,6 +55,16 @@ export default function App() {
         <Route path="schedules" element={<ManageSchedules />} />
         <Route path="bookings" element={<ManageBookings />} />
         <Route path="reports" element={<Reports />} />
+      </Route>
+
+      <Route path="/manager/login" element={<ManagerLogin />} />
+      <Route path="/manager" element={<ProtectedRoute role="admin, manager"><ManagerLayout /></ProtectedRoute>}>
+        <Route index element={<ManagerDashboard />} />
+        <Route path="routes" element={<ManagerRoutes />} />
+        <Route path="payments" element={<ManagerPayments />} />
+        <Route path="schedules" element={<ManagerSchedules />} />
+        <Route path="bookings" element={<ManagerBookings />} />
+        <Route path="reports" element={<ManagerReports />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

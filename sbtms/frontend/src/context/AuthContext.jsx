@@ -35,6 +35,11 @@ export function AuthProvider({ children }) {
     persist(data.token, data.user);
     return data.user;
   };
+  const managerLogin = async (email, password) => {
+    const { data } = await api.post('/auth/manager/login', { email, password });
+    persist(data.token, data.user);
+    return data.user;
+  };
   const register = async (payload) => {
     const { data } = await api.post('/auth/register', payload);
     persist(data.token, data.user);
@@ -47,7 +52,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, adminLogin, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, adminLogin, managerLogin, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

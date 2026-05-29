@@ -6,6 +6,7 @@ const path = require('path');
 
 const errorHandler = require('./middleware/errorHandler');
 const seedAdmin = require('./utils/seedAdmin');
+const seedManager = require('./utils/seedManager');
 
 const app = express();
 app.use(cors({ origin: process.env.CLIENT_ORIGIN || '*' }));
@@ -23,6 +24,7 @@ app.use('/api/schedules', require('./routes/schedules'));
 app.use('/api/bookings',  require('./routes/bookings'));
 app.use('/api/payments',  require('./routes/payments'));
 app.use('/api/reports',   require('./routes/reports'));
+app.use('/api/manager',   require('./routes/manager'));
 
 app.use(errorHandler);
 
@@ -30,4 +32,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {
   console.log(`SBTMS backend running on port ${PORT}`);
   await seedAdmin();
+  await seedManager();
 });

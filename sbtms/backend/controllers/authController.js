@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Admin = require('../models/Admin');
+const Manager = require('../models/Manager');
 const generateToken = require('../utils/generateToken');
 
 exports.register = async (req, res, next) => {
@@ -41,11 +42,27 @@ exports.adminLogin = async (req, res, next) => {
   } catch (e) { next(e); }
 };
 
+exports.managerLogin = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const manager = await Manager.findByEmail(email);
+    if (!manager) return res.status(401).json({ message: 'Invalid credentials' });
+    const ok = await bcrypt.compare(password, manager.password);
+    if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
+    const token = generateToken({ id: manager.id, role: 'manager', email: manager.email });
+    res.json({ token, user: { id: manager.id, name: manager.name, email: manager.email, role: 'manager' } });
+  } catch (e) { next(e); }
+};
+
 exports.me = async (req, res, next) => {
   try {
     if (req.user.role === 'admin') {
       const admin = await Admin.findByEmail(req.user.email);
       return res.json({ id: admin.id, name: admin.name, email: admin.email, role: 'admin' });
+    }
+    if (req.user.role === 'manager') {
+      const manager = await Manager.findByEmail(req.user.email);
+      return res.json({ id: manager.id, name: manager.name, email: manager.email, role: 'manager' });
     }
     const u = await User.findById(req.user.id);
     res.json({ ...u, role: 'passenger' });

@@ -5,5 +5,5 @@ r.post('/', authenticate, c.create);
 r.get('/my', authenticate, c.my);
 r.get('/:id', authenticate, c.get);
 r.delete('/:id', authenticate, c.cancel);
-r.get('/', authenticate, authorize('admin'), c.list);
+r.get('/', authenticate, authorize('admin', 'manager'), c.list);
 module.exports = r;
